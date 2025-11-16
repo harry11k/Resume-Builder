@@ -3,10 +3,13 @@ package io.javabrains.resume_portal.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 public class MyUserDetails implements UserDetails {
     private String Username;
@@ -23,35 +26,38 @@ public class MyUserDetails implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public String getUsername() {
         return Username;
     }
 
-    public void setUsername(String username) {
-        this.Username = username;
-    }
-
+    @Override
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isAccountNonExpired(){
+        return true;
     }
 
-    public boolean isActive() {
-        return active;
+    @Override
+    public boolean isAccountNonLocked(){
+        return true;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    @Override
+    public boolean isCredentialsNonExpired(){
+        return true;
     }
 
-    public List<GrantedAuthority> getAuthorities() {
+    @Override
+    public boolean isEnabled(){
+        return this.active;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
         return authorities;
-    }
-
-    public void setAuthorities(List<GrantedAuthority> authorities) {
-        this.authorities = authorities;
     }
 }

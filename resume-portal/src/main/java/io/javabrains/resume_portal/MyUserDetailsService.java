@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
+
     @Autowired
     UserRepository userRepository;
 
@@ -25,4 +26,5 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return user.map(MyUserDetails::new).get();
     }
+
 }

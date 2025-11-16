@@ -1,9 +1,10 @@
 package io.javabrains.resume_portal.model;
 
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Bean;
 
 @Entity
-@Table(name = "User")
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

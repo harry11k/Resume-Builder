@@ -1,6 +1,7 @@
 package io.javabrains.resume_portal;
 
 import io.javabrains.resume_portal.Repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
