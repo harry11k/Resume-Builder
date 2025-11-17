@@ -24,9 +24,15 @@ public class Filter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
+    public Filter(jwtutil jwtutil, UserDetailsService userDetailsService) {
+        this.jwtutil = jwtutil;
+        this.userDetailsService = userDetailsService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain Chain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
 
