@@ -1,4 +1,5 @@
-package io.javabrains.resume_portal.model;
+package io.javabrains.resume_portal.authenticationutils;
+
 
 public class AuthenticateResponse {
     private final String jwt;
@@ -10,4 +11,5 @@ public class AuthenticateResponse {
     public String getJwt() {
         return jwt;
     }
+
 }

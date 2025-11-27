@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Joe Bloggs - Curriculum Vitae</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="The Curriculum Vitae of Joe Bloggs."/>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global Styles */
+    body {
+        font-family: 'Lato', sans-serif;
+        background: #f4f7f8;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    a {
+        text-decoration: none;
+        color: #007BFF;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* CV Container */
+    #cv {
+        max-width: 900px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        padding: 30px;
+    }
+
+    /* Header */
+    .mainDetails {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    #name h1 {
+        font-family: 'Rokkitt', serif;
+        font-size: 2.4em;
+        margin: 0;
+    }
+    #name h2 {
+        font-size: 1.2em;
+        color: #555;
+        margin-top: 5px;
+    }
+    #contactDetails ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 0.95em;
+    }
+
+    /* Sections */
+    section {
+        margin-bottom: 30px;
+    }
+    .sectionTitle h1 {
+        font-family: 'Rokkitt', serif;
+        font-size: 1.6em;
+        border-bottom: 2px solid #007BFF;
+        display: inline-block;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        color: #007BFF;
+    }
+    .sectionContent p, .sectionContent ul {
+        font-size: 0.95em;
+        line-height: 1.6;
+    }
+
+    /* Work Experience */
+    .sectionContent article {
+        background: #f9f9f9;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        transition: transform 0.2s;
+    }
+    .sectionContent article:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .subDetails {
+        color: #666;
+        font-size: 0.85em;
+        margin-bottom: 10px;
+    }
+
+    /* Key Skills */
+    .keySkills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .keySkills li {
+        background: #007BFF;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85em;
+    }
+
+    /* Education */
+    .sectionContent article h2 {
+        margin: 0;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+    .sectionContent article p {
+        margin: 5px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        #contactDetails ul {
+            flex-direction: column;
+            gap: 5px;
+        }
+        .keySkills {
+            flex-direction: column;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cv" class="instaFade">
+
+  <!-- Main Details -->
+  <div class="mainDetails">
+    <div id="name">
+      <h1>
+        <span th:text="${userProfile.firstName}">Joe</span>
+        <span th:text="${userProfile.lastName}">Bloggs</span>
+        <a th:if="${currentUsersProfile}" href="/edit">Edit</a>
+      </h1>
+      <h2 th:text="${userProfile.designation}">Job Title</h2>
+    </div>
+
+    <div id="contactDetails">
+      <ul>
+        <li>e: <span th:text="${userProfile.email}">joe@bloggs.com</span></li>
+        <li>m: <span th:text="${userProfile.phone}">01234567890</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Area -->
+
+  <!-- Personal Profile -->
+  <section>
+    <div class="sectionTitle"><h1>Personal Profile</h1></div>
+    <div class="sectionContent">
+      <p th:text="${userProfile.summary}">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+    </div>
+  </section>
+
+  <!-- Work Experience -->
+  <section>
+    <div class="sectionTitle"><h1>Work Experience</h1></div>
+    <div class="sectionContent" th:each="job : ${userProfile.jobs}">
+      <article>
+        <h2>
+          <span th:text="${job.designation}">Job Title</span> at
+          <span th:text="${job.company}">Company</span>
+        </h2>
+        <p class="subDetails">
+          <span th:text="${job.formattedStartDate}">April 2011</span> -
+          <span th:text="${job.currentJob} ? 'Present' : ${job.formattedEndDate}">Present</span>
+        </p>
+        <ul th:each="responsibility : ${job.responsibilities}">
+          <li th:text="${responsibility}">Responsibility</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- Key Skills -->
+  <section>
+    <div class="sectionTitle"><h1>Key Skills</h1></div>
+    <div class="sectionContent">
+      <ul class="keySkills" th:each="skill : ${userProfile.skills}">
+        <li th:text="${skill}">A Key Skill</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <div class="sectionTitle"><h1>Education</h1></div>
+    <div class="sectionContent" th:each="education : ${userProfile.educations}">
+      <article>
+        <h2 th:text="${education.college}">College/University</h2>
+        <p class="subDetails" th:text="${education.qualification}">Qualification</p>
+        <p th:text="${education.summary}">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </article>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

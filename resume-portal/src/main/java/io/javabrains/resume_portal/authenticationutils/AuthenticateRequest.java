@@ -1,4 +1,4 @@
-package io.javabrains.resume_portal.model;
+package io.javabrains.resume_portal.authenticationutils;
 
 public class AuthenticateRequest {
     private String username;

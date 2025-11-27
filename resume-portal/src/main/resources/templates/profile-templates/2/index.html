@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName} + ' - Resume'">Resume</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        background: #f0f2f5;
+        color: #333;
+    }
+    #cv {
+        display: flex;
+        max-width: 1000px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .sidebar {
+        background: #007BFF;
+        color: #fff;
+        width: 280px;
+        padding: 30px 20px;
+    }
+    .sidebar h2 {
+        font-family: 'Rokkitt', serif;
+        margin-top: 0;
+    }
+    .sidebar .contact, .sidebar .skills {
+        margin-top: 20px;
+    }
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+    .sidebar ul li {
+        margin-bottom: 8px;
+    }
+    .main {
+        flex: 1;
+        padding: 30px;
+    }
+    section {
+        margin-bottom: 25px;
+    }
+    section h1 {
+        font-family: 'Rokkitt', serif;
+        font-size: 1.4em;
+        color: #007BFF;
+        border-bottom: 2px solid #007BFF;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .job, .education {
+        margin-bottom: 15px;
+    }
+    .job h2, .education h2 {
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .subDetails {
+        color: #666;
+        font-size: 0.85em;
+    }
+    .skills li {
+        background: rgba(255,255,255,0.2);
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 15px;
+        margin: 4px 4px 0 0;
+        font-size: 0.85em;
+    }
+    @media (max-width: 768px){
+        #cv { flex-direction: column; }
+        .sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div id="cv">
+  <div class="sidebar">
+    <h2 th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}">Joe Bloggs</h2>
+    <h3 th:text="${userProfile.designation}">Job Title</h3>
+    <div class="contact">
+      <ul>
+        <li>Email: <span th:text="${userProfile.email}">joe@bloggs.com</span></li>
+        <li>Phone: <span th:text="${userProfile.phone}">01234567890</span></li>
+      </ul>
+    </div>
+    <div class="skills">
+      <h3>Skills</h3>
+      <ul th:each="skill : ${userProfile.skills}">
+        <li th:text="${skill}">Skill</li>
+      </ul>
+    </div>
+  </div>
+  <div class="main">
+    <section>
+      <h1>Profile</h1>
+      <p th:text="${userProfile.summary}">Summary here...</p>
+    </section>
+    <section>
+      <h1>Work Experience</h1>
+      <div class="job" th:each="job : ${userProfile.jobs}">
+        <h2><span th:text="${job.designation}">Job Title</span> @ <span th:text="${job.company}">Company</span></h2>
+        <p class="subDetails">
+          <span th:text="${job.formattedStartDate}">Start</span> -
+          <span th:text="${job.currentJob} ? 'Present' : ${job.formattedEndDate}">End</span>
+        </p>
+        <ul th:each="res : ${job.responsibilities}">
+          <li th:text="${res}">Responsibility</li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <h1>Education</h1>
+      <div class="education" th:each="edu : ${userProfile.educations}">
+        <h2 th:text="${edu.college}">College</h2>
+        <p class="subDetails" th:text="${edu.qualification}">Qualification</p>
+        <p th:text="${edu.summary}">Summary...</p>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

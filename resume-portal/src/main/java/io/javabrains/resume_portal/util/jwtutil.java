@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Component
 public class jwtutil {
-    private String SECRET_KEY = "secret";
+    private static final String SECRET_KEY = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -32,11 +32,14 @@ public class jwtutil {
         return ClaimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token){
+    private SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private Claims extractAllClaims(String token){
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Resume - Theme 3</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .resume-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 30px 40px;
+        border-radius: 8px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 32px;
+    }
+
+    .header h2 {
+        margin: 5px 0 0;
+        font-size: 18px;
+        color: #555;
+        font-weight: normal;
+    }
+
+    .contact {
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 30px;
+        color: #666;
+    }
+
+    section {
+        margin-bottom: 25px;
+    }
+
+    section h3 {
+        font-size: 20px;
+        color: #007BFF;
+        border-bottom: 2px solid #007BFF;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 6px;
+    }
+
+    .job, .education {
+        margin-bottom: 15px;
+    }
+
+    .job-title, .education-title {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .job-duration, .education-duration {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+
+    @media (max-width: 600px) {
+        .resume-container {
+            padding: 20px;
+        }
+        section h3 {
+            font-size: 18px;
+        }
+    }
+  </style>
+</head>
+<body>
+<div class="resume-container">
+  <div class="header">
+    <h1 th:text="${userProfile.firstName} + ' ' + ${userProfile.lastName}">John Doe</h1>
+    <h2 th:text="${userProfile.designation}">Software Engineer</h2>
+  </div>
+
+  <div class="contact">
+    <span th:text="${userProfile.email}">john@example.com</span> |
+    <span th:text="${userProfile.phone}">1234567890</span>
+  </div>
+
+  <section>
+    <h3>Summary</h3>
+    <p th:text="${userProfile.summary}">Brief professional summary goes here.</p>
+  </section>
+
+  <section>
+    <h3>Work Experience</h3>
+    <div class="job" th:each="job : ${userProfile.jobs}">
+      <div class="job-title" th:text="${job.designation} + ' at ' + ${job.company}">Job Title at Company</div>
+      <div class="job-duration" th:text="${job.formattedStartDate} + ' - ' + (${job.currentJob}? 'Present' : ${job.formattedEndDate})">Date Range</div>
+      <ul th:each="responsibility : ${job.responsibilities}">
+        <li th:text="${responsibility}">Responsibility</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h3>Skills</h3>
+    <ul th:each="skill : ${userProfile.skills}">
+      <li th:text="${skill}">Skill Name</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Education</h3>
+    <div class="education" th:each="education : ${userProfile.educations}">
+      <div class="education-title" th:text="${education.college}">College Name</div>
+      <div class="education-duration" th:text="${education.qualification}">Degree / Qualification</div>
+      <p th:text="${education.summary}">Short description if any.</p>
+    </div>
+  </section>
+</div>
+</body>
+</html>
